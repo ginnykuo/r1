@@ -1,0 +1,40 @@
+1 + 1 
+#R的四則運算
+"Arr, matey!"
+#" " 文字方塊 (即使放進數字,r會當作文字處理)
+6 * 7
+#R的四則運算
+3 < 4
+#方程式代表邏輯(logical value=boolean)是為一個表達式
+2 + 2 == 5
+#只有一個等號是定義變數;雙等號是判斷邏輯是否正確
+T == TRUE
+# 大寫T在r裡代表TRUE;大寫F在r裡代表FALSE
+x <- 42
+# <- 與 =相同都是為定義
+x / 2
+# > x <- 42假設;x套入 x / 2就會跑出結果
+x <- "Arr, matey!"
+# <- 與 =相同都是為定義
+x
+# <- 與 =相同都是為定義;當定義x <- "Arr, matey!"
+x <- TRUE
+# <- 與 =相同都是為定義
+sum(1, 3, 5)
+#sum=加總括弧內的數字
+rep("Yo ho!", times = 3)
+#rep=reply重複;公式=rep(" ",time= )
+sqrt(16)
+#sqrt=開平方
+help(sum)
+#help會將網頁版的註解叫出來
+example(min)
+# example會列出他的使用例子
+help(rep)
+#help會將網頁版的註解叫出來
+list.files()
+#把檔案內的資料叫出來,list.files()會指定的目錄列出
+source("bottle1.R.txt")
+#list.files()為第一步;source("bottle1.R.txt")命名的檔案裡面的資料叫出
+source("bottle2.R.txt")
+#本來只有bottle1.R我們沒有bottle2.R 必須要自己創造
