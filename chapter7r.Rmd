@@ -1,0 +1,119 @@
+*Let's reproduce what we learn from [try R chapter 7](http://tryr.codeschool.com/levels/7/challenges/)*
+
+
+So far, we've been working purely in the abstract. It's time to take a look at some real data, and see if we can make any observations about it.
+
+### Some Real World Data
+Modern pirates plunder software, not silver. We have a file with the software piracy rate, sorted by country. Here's a sample of its format:
+```{r Q1-1, echo=TRUE, results='asis'}
+piracy <- read.csv("piracy.csv")
+head(piracy)
+```
+
+We'll load that into the piracy data frame for you: 
+
+```{r Q1-2, echo=TRUE, results='markup'}
+gdp <- read.table("gdp.txt",sep="\t",header=TRUE)
+```
+```{r}
+countries <- merge(x = gdp, y = piracy)
+countries
+```
+
+We also have another file with GDP per capita for each country (wealth produced, divided by population):
+
+```{r Q1-3, echo=TRUE, results='markup'}
+countries <- merge(x = gdp, y = piracy)
+```
+
+That will go into the gdp frame:
+
+```{r Q1-4, echo=TRUE, results='markup'}
+gdp <- read.table("gdp.txt",sep="\t",header=TRUE)
+```
+
+We'll merge the frames on the country names:
+
+```{r Q1-5, echo=TRUE, results='markup'}
+countries <- merge(x = gdp, y = piracy)
+countries
+```
+
+Let's do a plot of GDP versus piracy. Call the plot function, using the "GDP" column of countries for the horizontal axis, and the "Piracy" column for the vertical axis:
+
+
+```{r Q1-6, echo=TRUE, results='markup'}
+plot(countries$GDP, countries$Piracy)
+```
+
+It looks like there's a negative correlation between wealth and piracy - generally, the higher a nation's GDP, the lower the percentage of software installed that's pirated. But do we have enough data to support this connection? Is there really a connection at all?
+
+R can test for correlation between two vectors with the cor.test function. Try calling it on the GDP and Piracy columns of the countries data frame:
+
+```{r Q1-7, echo=TRUE, results='markup'}
+cor.test(countries$GDP, countries$Piracy)
+```
+
+The key result we're interested in is the "p-value". Conventionally, any correlation with a p-value less than 0.05 is considered statistically significant, and this sample data's p-value is definitely below that threshold. In other words, yes, these data do show a statistically significant negative correlation between GDP and software piracy.
+
+We have more countries represented in our GDP data than we do our piracy rate data. If we know a country's GDP, can we use that to estimate its piracy rate?
+
+We can, if we calculate the linear model that best represents all our data points (with a certain degree of error). The lm function takes a model formula, which is represented by a response variable (piracy rate), a tilde character (~), and a predictor variable (GDP). (Note that the response variable comes first.)
+
+Try calculating the linear model for piracy rate by GDP, and assign it to the line variable:
+  
+```{r Q1-8, echo=TRUE, results='markup'}
+line <- lm(countries$Piracy ~ countries$GDP)
+```
+
+You can draw the line on the plot by passing it to the abline function. Try it now:
+
+```{r Q1-9, echo=TRUE, results='markup'}
+countries <- merge(x = gdp, y = piracy)
+countries
+plot(countries$GDP, countries$Piracy)
+line <- lm(countries$Piracy ~ countries$GDP)
+abline(line)
+```
+
+
+### ggplot2
+The functionality we've shown you so far is all included with R by default. (And it's pretty powerful, isn't it?) But in case the default installation doesn't include that function you need, there are still more libraries available on the servers of the Comprehensive R Archive Network, or CRAN. They can add anything from new statistical functions to better graphics capabilities. Better yet, installing any of them is just a command away.
+
+Let's install the popular ggplot2 graphics package. Call the install.packages function with the package name in a string:
+
+```{r Q2-1, echo=TRUE, results='asis',eval=FALSE}
+install.packages("ggplot2")
+```
+
+You can get help for a package by calling the help function and passing the package name in the package argument. Try displaying help for the "ggplot2" package:
+
+```{r Q2-2, echo=TRUE, results='asis'}
+help(package = "ggplot2")
+```
+
+Here's a quick demo of the power you've just added to R. To use it, let's revisit some data from a previous chapter.
+
+```{r Q2-3, echo=TRUE, results='markup'}
+weights <- c(300, 200, 100, 250, 150)
+prices <- c(9000, 5000, 12000, 7500, 18000)
+chests <- c('gold', 'silver', 'gems', 'gold', 'gems')
+types <- factor(chests)
+```
+
+The qplot function is a commonly-used part of ggplot2. We'll pass the weights and values of our cargo to it, using the chest types vector for the color argument:
+
+```{r Q2-4, echo=TRUE, results='markup'}
+library(ggplot2)
+qplot(weights, prices, color = types)
+```
+
+Not bad! An attractive grid background and colorful legend, without any of the configuration hassle from before!
+
+ggplot2 is just the first of many powerful packages awaiting discovery on CRAN. And of course, there's much, much more functionality in the standard R libraries. This course has only scratched the surface!
+
+### Chapter 7 Completed
+Captain's Log: The end of chapter 7. Supplies are running low. Luckily, we've spotted another badge!
+
+We've covered how to take some real-world data sets, and test whether they're correlated with `cor.test`. Then we learned how to show that correlation on plots, with a linear model.
+

@@ -1,0 +1,14 @@
+# Some Real World Data
+直接從課程網頁下載
+```{r}
+piracy <- read.csv("piracy.csv")
+```
+
+```{r}
+gdp <- read.table("gdp.txt",sep="\t",header=TRUE)
+```
+```{r}
+countries <- merge(x = gdp, y = piracy)
+countries
+```
+
